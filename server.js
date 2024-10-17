@@ -1,59 +1,55 @@
-const express = require("express")
-const router = express.Router();
-const cors = require('cors');
-const nodemailer = require('nodemailer');
-
-//server used to send maill
+const express = require("express");
+const cors = require("cors");
+const nodemailer = require("nodemailer");
+require('dotenv').config();
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',  // Allow requests from frontend
+    methods: ['POST', 'GET'],       // Allow requests from the frontend
+}));
 app.use(express.json());
-app.use("/", router);
-app.listen(5000, () => console.log('server running'));
-console.log(process.env.EMAIL_USER);
-console.log(process.env.EMAIL_PASS);
 
+// Setting up the Nodemailer transporter
 const contactEmail = nodemailer.createTransport({
-    service:'gmail',
+    service: 'gmail',
     auth: {
-        user:"sunnysingh03sd@gmail.com",
-        pass: 'deadpool@123',
-    }
+        user: process.env.EMAIL_USER, // use environment variables for security
+        pass: process.env.EMAIL_PASS,
+    },
 });
 
 contactEmail.verify((error) => {
-    if(error){
-        console.log(error);
-        
-    }else {
-        console.log('Ready to Send');
-        
+    if (error) {
+        console.log("Error setting up email: ", error);
+    } else {
+        console.log("Email setup successful. Ready to send emails.");
     }
 });
 
-router.post("/contact", (req, res) => {
-    const name = req.body.firstName + req.body.lastName;
-    const email = req.body.email;
-    const message = req.body.message;
-    const phone = req.body.phone;
-    const mail = {
-        from: name,
-        to:'sunnysingh03sd@gmail.com',
-        subject: 'Contact Form Submission - Portfolio',
-        html:`<p>Name: ${name}</p>
-                <p>Email: ${email}</p>
-                <p>Phone: ${phone}</p>
-                <p>Message: ${message}</p>`,
+app.post("/contact", (req, res) => {
+    const { firstName, lastName, email, message, phone } = req.body;
+    const mailOptions = {
+        from: `${firstName} ${lastName} <${email}>`,
+        to: 'sunnysingh03sd@gmail.com',  // Your email
+        subject: "Contact Form Submission - Portfolio",
+        html: `
+            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Message:</strong> ${message}</p>
+        `,
     };
 
-    contactEmail.sendMail(mail, (error) => {
-        if(error){
-            res.json(error);
-            
-        }else{
-           res.json({Code:200, status:"message Send"})
-            
+    contactEmail.sendMail(mailOptions, (error) => {
+        if (error) {
+            console.error("Error sending email:", error);
+            res.status(500).json({ code: 500, message: 'Error sending email. Try again later.' });
+        } else {
+            res.status(200).json({ code: 200, message: 'Message sent successfully' });
         }
-    } )
-})
+    });
+});
 
-
+app.listen(5000, () => {
+    console.log("Server running on port 5000");
+});

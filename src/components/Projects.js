@@ -1,65 +1,75 @@
-import projImg1 from "../assets/img/project-img1.png";
-import projImg2 from "../assets/img/project-img2.png";
-import projImg3 from "../assets/img/project-img3.png";
-import colorSharp2 from "../assets/img/color-sharp2.png";
 
-// import 'animate.css';
+import colorSharp2 from "../assets/img/color-sharp2.png";
+import refineDash from "../assets/img/refineDashboard.png";
+import BrainWave from '../assets/img/BrainWave.png';
+import NSSolution from '../assets/img/NSSolution.png';
+import HealthCare from '../assets/img/HealthCare.png';
+import SmulyChat from '../assets/img/SmulyChat.png';
+import GuessmyNo from '../assets/img/GuessmyNo.png'
+import omniFood from '../assets/img/Omnifood.png'
+import 'animate.css';
+import TrackVisibility from 'react-on-screen';
 import { Col, Container, Nav, Row, Tab } from "react-bootstrap";
 import { ProjectCard } from "./ProjectCard";
 
 export const Projects = () => {
     const projects = [
         {
-          title: "Business Startup",
+          title: "BrainWave",
           description: "Design & Development",
-          imgUrl: projImg1,
+          imgUrl: BrainWave,
+          link: "https://brainwave-nu-ten.vercel.app/"
         },
         {
-          title: "Business Startup",
+          title: "NS Solution",
           description: "Design & Development",
-          imgUrl: projImg2,
+          imgUrl: NSSolution,
+          link: "https://ns-solutions.vercel.app/"
         },
         {
-          title: "Business Startup",
+          title: "Light-Fork Dashboard ",
           description: "Design & Development",
-          imgUrl: projImg3,
+          imgUrl: refineDash,
+          link: "https://refine-by-ustola.vercel.app/"
         },
         {
-          title: "Business Startup",
+          title: "HealthCare Clinic",
           description: "Design & Development",
-          imgUrl: projImg1,
+          imgUrl: HealthCare,
+          link: "https://healthcare-mu-roan.vercel.app/"
         },
         {
-          title: "Business Startup",
+          title: "Smuly Chat",
           description: "Design & Development",
-          imgUrl: projImg2,
+          imgUrl: SmulyChat,
+          link: "https://bg-chat-lbzmoe5my-ustolas-projects.vercel.app/"
         },
         {
-          title: "Business Startup",
-          description: "Design & Development",
-          imgUrl: projImg3,
+          title: "Guess my No. ",
+          description: "Design & Game Development",
+          imgUrl: GuessmyNo,
+          link:"https://guess-my-number69.vercel.app/"
         },
+        {
+            title: "omniFood ",
+            description: "Design & Development",
+            imgUrl: omniFood,
+            link:"https://omnifood-by-logicule.netlify.app/"
+          },
       ];
 
       return(
-        <section className="project" id="project">
+        <section className="project" id="projects">
             <Container>
                 <Row>
-                    <Col>
+                    <Col lg={12}>
+                    <TrackVisibility>
+                    {({ isVisible }) =>
+              <div className={isVisible ? "animate__animated animate__bounce": ""}>
                         <h2>Projects</h2>
-                        <p>lorem aksdjkakja  kajhd hdkas shdksd ksag hgfegfjdfkaf8</p>
+                        <p>Here are a few of my projects. </p>
                         <Tab.Container id="projects-tabs" defaultActiveKey={'first'} >
-                            <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-itmes-center" id="pills-tab">
-                                <Nav.Item>
-                                    <Nav.Link eventKey={'first'}>Tab One</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey={'second'}>Tab Second</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey={'third'}>Tab Third</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
+                            
                             <Tab.Content>
                                 <Tab.Pane eventKey={"first"}>
                                     <Row>
@@ -75,10 +85,10 @@ export const Projects = () => {
                                         }
                                     </Row>
                                 </Tab.Pane>
-                                <Tab.Pane eventKey={'second'}>lorem</Tab.Pane>
-                                <Tab.Pane eventKey={'third'}>lorem ipsum</Tab.Pane>
                             </Tab.Content>
                         </Tab.Container>
+                        </div>}
+                    </TrackVisibility>
                     </Col>
                 </Row>
             </Container>
